@@ -1,5 +1,17 @@
 use Mix.Config
 
+# taken mutatis mutandi from the course notes
+get_secret = fn name ->
+  base = Path.expand("~/.config/task_tracker")
+  File.mkdir_p!(base)
+  path = Path.join(base, name)
+  unless File.exists?(path) do
+    secret = Base.encode16(:crypto.strong_rand_bytes(32))
+    File.write!(path, secret)
+  end
+  String.trim(File.read!(path))
+end
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
@@ -11,6 +23,7 @@ config :task_tracker, TaskTrackerWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
+  secret_key_base: get_secret.("key_base"),
   watchers: [
     node: [
       "node_modules/webpack/bin/webpack.js",
@@ -68,8 +81,8 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Configure your database
 config :task_tracker, TaskTracker.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "task_tracker",
+  password: get_secret.("db_pass"),
   database: "task_tracker_dev",
   hostname: "localhost",
   pool_size: 10

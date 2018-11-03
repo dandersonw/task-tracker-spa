@@ -5,6 +5,8 @@ import _ from 'lodash';
 import $ from 'jquery';
 
 import Header from './header';
+import Register from './register';
+
 
 export default function root_init(root) {
     ReactDOM.render(<Root />, root);
@@ -46,6 +48,24 @@ class Root extends React.Component {
         });
     }
 
+    register_user(email, password, password_confirmation) {
+        $.ajax("/api/v1/users", {
+            method: "post",
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify({"user": {"email": email,
+                                           "password": password,
+                                           "password_confirmation": password_confirmation}}),
+            success: (resp) => {
+                let state1 = _.assign({}, this.state, { session: resp.data });
+                this.setState(state1);
+            },
+            error: (resp) => {
+                console.log("couldn't register");
+            }
+        });
+    }
+
     render() {
         return <div>
                  <Router>
@@ -56,9 +76,11 @@ class Root extends React.Component {
                          <Route path="/" exact={true} render={() =>
                                                               <br/>
                                                              } />
-                         <Route path="/users" exact={true} render={() =>
-                                                                   <br/>
-                                                                  } />
+                         <Route path="/register"
+                                exact={true}
+                                render={() =>
+                                        <Register root={this}/>
+                                       } />
                        </div>
                      </div>
                    </div>

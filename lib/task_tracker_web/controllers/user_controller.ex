@@ -12,11 +12,25 @@ defmodule TaskTrackerWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    with {:ok, %User{} = user} <- Users.create_user(user_params) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.user_path(conn, :show, user))
-      |> render("show.json", user: user)
+    IO.puts "Hashing..."
+    IO.inspect Comeonin.Argon2.hashpwsalt("foobar")
+    IO.puts "Done hashing"
+
+    IO.inspect user_params
+    case Users.create_user(user_params) do
+      {:ok, user} ->
+        IO.puts "OK"
+        resp = %{"data" => TaskTracker.Users.session_from_user(user)}
+        IO.puts "success"
+        conn
+        |> put_session(:user_id, user.id)
+        |> put_resp_header("content-type", "application/json; charset=UTF-8")
+        |> send_resp(:created, Jason.encode!(resp))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect changeset
+        conn
+        |> send_resp(:unprocessable_entity, "Couldn't register")
     end
   end
 

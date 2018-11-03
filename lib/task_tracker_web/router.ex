@@ -21,12 +21,14 @@ defmodule TaskTrackerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/register", PageController, :index
+    
   end
 
   scope "/api/v1", TaskTrackerWeb do
     pipe_through :api
 
-    resources "/users", UserController, except: [:new, :edit]
+    post "/users", UserController, :create
     resources "/tasks", TaskController, except: [:new, :edit]
 
     post "/sessions", SessionController, :create

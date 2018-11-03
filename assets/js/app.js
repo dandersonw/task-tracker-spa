@@ -24,6 +24,7 @@ import _ from "lodash";
 import root_init from "./root";
 
 $(() => {
-  let node = $('#root')[0];
-  root_init(node);
+    let node = $('#root')[0];
+    root_init(node);
 });
+

@@ -11,6 +11,8 @@ defmodule TaskTrackerWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_flash
   end
 
   scope "/", TaskTrackerWeb do
@@ -19,11 +21,13 @@ defmodule TaskTrackerWeb.Router do
     get "/", PageController, :index
   end
 
-  scope "/api/v1/", TaskTrackerWeb do
+  scope "/api/v1", TaskTrackerWeb do
     pipe_through :api
 
     resources "/users", UserController, except: [:new, :edit]
     resources "/tasks", TaskController, except: [:new, :edit]
+
+    resources "/sessions", SessionController, only: [:create]
   end
 
   # Other scopes may use custom stacks.

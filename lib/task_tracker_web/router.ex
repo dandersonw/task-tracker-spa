@@ -7,12 +7,14 @@ defmodule TaskTrackerWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug TaskTrackerWeb.Plugs.FetchSession
   end
 
   pipeline :api do
     plug :accepts, ["json"]
     plug :fetch_session
     plug :fetch_flash
+    plug TaskTrackerWeb.Plugs.FetchSession
   end
 
   scope "/", TaskTrackerWeb do
@@ -27,7 +29,8 @@ defmodule TaskTrackerWeb.Router do
     resources "/users", UserController, except: [:new, :edit]
     resources "/tasks", TaskController, except: [:new, :edit]
 
-    resources "/sessions", SessionController, only: [:create]
+    post "/sessions", SessionController, :create
+    delete "/sessions", SessionController, :delete
   end
 
   # Other scopes may use custom stacks.

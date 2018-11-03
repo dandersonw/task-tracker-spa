@@ -14,7 +14,7 @@ class Root extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            session: null,
+            session: window.session,
         };
     }
 
@@ -31,6 +31,17 @@ class Root extends React.Component {
             },
             error: (resp) => {
                 console.log("bad username/password");
+            }
+        });
+    }
+
+    delete_session() {
+        $.ajax("/api/v1/sessions", {
+            method: "delete",
+            contentType: "application/json; charset=UTF-8",
+            success: (resp) => {
+                let state1 = _.assign({}, this.state, { session: null });
+                this.setState(state1);
             }
         });
     }

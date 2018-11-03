@@ -18,8 +18,11 @@ export default function Header(props) {
                        </div>;
 
     if (root.state.session != null) {
-        session_view = <div className="col-2">
-                         {root.state.session.user_email}
+        session_view = <div className="col">
+                         User: {root.state.session.user_email}
+                         <button id="logout-button"
+                                 className="btn btn-secondary"
+                                 onClick={() => root.delete_session()}>Logout</button>
                        </div>;
     }
 

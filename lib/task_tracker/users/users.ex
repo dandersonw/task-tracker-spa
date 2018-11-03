@@ -34,6 +34,17 @@ defmodule TaskTracker.Users do
     end
   end
 
+  def session_from_user(user) do
+    case user do
+      nil -> nil
+      user -> %{
+              token: Phoenix.Token.sign(TaskTrackerWeb.Endpoint, "user_id", user.id),
+              user_email: user.email,
+              user_id: user.id,
+          }
+    end
+  end
+
   @doc """
   Gets a single user.
 
@@ -49,6 +60,8 @@ defmodule TaskTracker.Users do
 
   """
   def get_user!(id), do: Repo.get!(User, id)
+
+  def get_user(id), do: Repo.get(User, id)
 
   @doc """
   Creates a user.

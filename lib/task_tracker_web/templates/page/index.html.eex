@@ -7,4 +7,5 @@
 </div>
 
 <script>
+  window.session = <%= raw Jason.encode!(@session) %>;
 </script>

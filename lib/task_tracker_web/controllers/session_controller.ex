@@ -25,7 +25,6 @@ defmodule TaskTrackerWeb.SessionController do
   def delete(conn, _params) do
     conn
     |> delete_session(:user_id)
-    |> put_flash(:info, "Logged out.")
     |> send_resp(:ok, "OK")
   end
 end

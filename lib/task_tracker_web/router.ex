@@ -13,7 +13,6 @@ defmodule TaskTrackerWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
     plug :fetch_session
-    plug :fetch_flash
     plug TaskTrackerWeb.Plugs.FetchSession
   end
 
@@ -22,6 +21,7 @@ defmodule TaskTrackerWeb.Router do
 
     get "/", PageController, :index
     get "/register", PageController, :index
+    get "/complete/:id", PageController, :index
     
   end
 

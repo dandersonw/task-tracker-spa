@@ -12,16 +12,9 @@ defmodule TaskTrackerWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    IO.puts "Hashing..."
-    IO.inspect Comeonin.Argon2.hashpwsalt("foobar")
-    IO.puts "Done hashing"
-
-    IO.inspect user_params
     case Users.create_user(user_params) do
       {:ok, user} ->
-        IO.puts "OK"
         resp = %{"data" => TaskTracker.Users.session_from_user(user)}
-        IO.puts "success"
         conn
         |> put_session(:user_id, user.id)
         |> put_resp_header("content-type", "application/json; charset=UTF-8")

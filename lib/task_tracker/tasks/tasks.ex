@@ -21,6 +21,10 @@ defmodule TaskTracker.Tasks do
     Repo.all(Task)
   end
 
+  def task_view(task) do
+    Map.take(task, [:completed, :desc, :time_spent, :title, :inserted_at, :id])
+  end
+
   @doc """
   Gets a single task.
 

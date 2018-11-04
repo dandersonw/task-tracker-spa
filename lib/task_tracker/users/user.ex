@@ -21,26 +21,11 @@ defmodule TaskTracker.Users.User do
   # From Husky Shop
   @doc false
   def changeset(user, attrs) do
-    IO.inspect(user)
-    IO.inspect(attrs)
-
-    user = user
+    user
     |> cast(attrs, [:email, :password, :password_confirmation])
-
-    IO.inspect(user)
-
-    user = user
     |> validate_confirmation(:password)
     |> validate_password(:password)
-
-    IO.inspect(user)
-
-    user = user
     |> put_pass_hash()
-
-    IO.inspect(user)
-
-    user
     |> validate_required([:email, :password_hash])
   end
 
@@ -57,10 +42,7 @@ defmodule TaskTracker.Users.User do
 
   def put_pass_hash(%Ecto.Changeset{
         valid?: true, changes: %{password: password}} = changeset) do
-    IO.inspect password
-    IO.inspect Comeonin.Argon2.hashpwsalt("hogehoge")
-    change(changeset, Comeonin.Argon2.add_hash("hogehoge"))
-    IO.puts password
+    change(changeset, Comeonin.Argon2.add_hash(password))
   end
   def put_pass_hash(changeset), do: changeset
 

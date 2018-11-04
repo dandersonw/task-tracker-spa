@@ -8,4 +8,5 @@
 
 <script>
   window.session = <%= raw Jason.encode!(@session) %>;
+  window.tasks = <%= raw Jason.encode!(@tasks) %>;
 </script>

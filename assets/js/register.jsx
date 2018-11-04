@@ -33,13 +33,14 @@ export default function Register(props) {
                        className="form-control"/>
               </div>
             </div>
-            <button id="register-button"
-                    className="btn btn-primary col-sm-2"
-                    onClick={() =>
-                             root.register_user(document.getElementById("register-email").value,
-                                               document.getElementById("register-pass").value,
-                                               document.getElementById("register-pass-confirmation").value)}>
-              Register</button>
-          </div>
-    </form>;
+                   <button id="register-button"
+                           type="button"
+                           className="btn btn-primary col-sm-2"
+                           onClick={() =>
+                                    root.register_user(document.getElementById("register-email").value,
+                                                       document.getElementById("register-pass").value,
+                                                       document.getElementById("register-pass-confirmation").value)}>
+                     Register</button>
+                 </div>
+           </form>;
 }

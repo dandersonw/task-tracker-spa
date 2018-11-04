@@ -6,6 +6,9 @@ import $ from 'jquery';
 
 import Header from './header';
 import Register from './register';
+import Tasks from './tasks';
+import Complete from './complete';
+import Show from './show';
 
 
 export default function root_init(root) {
@@ -17,6 +20,7 @@ class Root extends React.Component {
         super(props);
         this.state = {
             session: window.session,
+            tasks: window.tasks,
         };
     }
 
@@ -73,14 +77,26 @@ class Root extends React.Component {
                      <Header root={this} />
                      <div className="row">
                        <div className="col-8">
-                         <Route path="/" exact={true} render={() =>
-                                                              <br/>
-                                                             } />
+                         <Route path="/"
+                                exact={true}
+                                render={() =>
+                                        <Tasks root={this}/>
+                                       } />
                          <Route path="/register"
                                 exact={true}
                                 render={() =>
                                         <Register root={this}/>
                                        } />
+                         <Route path="/complete/:id"
+                                exact={true}
+                                render={({match}) =>
+                                        <Complete taskId={match.params.id} root={this}></Complete>
+                                       }/>
+                         <Route path="/show/:id"
+                                exact={true}
+                                render={({match}) =>
+                                        <Show taskId={match.params.id} root={this}></Show>
+                                       }/>
                        </div>
                      </div>
                    </div>

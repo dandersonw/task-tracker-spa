@@ -15,6 +15,8 @@ defmodule TaskTrackerWeb.TaskView do
       title: task.title,
       desc: task.desc,
       time_spent: task.time_spent,
-      completed: task.completed}
+      completed: task.completed,
+      inserted_at: task.inserted_at,
+      assignee: (if task.user != nil do task.user.email else nil end)}
   end
 end

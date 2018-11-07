@@ -21,6 +21,8 @@ defmodule TaskTrackerWeb.Router do
 
     get "/", PageController, :index
     get "/register", PageController, :index
+    get "/new", PageController, :index
+    get "/show/:id", PageController, :index
     get "/complete/:id", PageController, :index
     
   end

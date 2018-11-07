@@ -1,10 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+
+import api from './api';
 
 // initially copied from husky shop
 
-export default function Header(props) {
-    let {root} = props;
+export function Header(props) {
+    let {dispatch, session} = props;
 
     let session_view = <div className="form-inline">
                           <div className="form-group">
@@ -16,32 +19,35 @@ export default function Header(props) {
                          <button id="login-button"
                                  className="btn btn-secondary"
                                  onClick={() =>
-                                          root.create_session(document.getElementById("login-email").value,
+                                          api.create_session(document.getElementById("login-email").value,
                                                               document.getElementById("login-pass").value)}>
                            Login
                          </button>
                           <p><Link to={"/register"}>Register</Link></p>
                        </div>;
 
-    if (root.state.session != null) {
+    if (session != null) {
         session_view = <div className="col">
-                         User: {root.state.session.user_email}
+                         User: {session.user_email}
                          <button id="logout-button"
                                  className="btn btn-secondary"
-                                 onClick={() => root.delete_session()}>Logout</button>
+                                 onClick={() => api.delete_session()}>Logout</button>
                        </div>;
     }
 
     return <div className="row my-2">
-    <div className="col-4"><h2><Link to={"/"}>Task Tracker</Link></h2></div>
-    {/* <div className="col-4"> */}
-    {/*   <h1><Link to={"/"} onClick={root.fetch_products.bind(root)}>Husky Shop</Link></h1> */}
-    {/* </div> */}
-    {/* <div className="col-2"> */}
-    {/*   <p><Link to={"/users"} onClick={root.fetch_users.bind(root)}>Users</Link></p> */}
-    {/* </div> */}                        
-    <div className="col-6">
-      {session_view}
-    </div>
-  </div>;
+             <div className="col-4"><h2>Task Tracker</h2></div>
+             <div className="col-2">
+               <Link to={"/"} onClick={() => api.fetch_tasks()}>Tasks</Link>
+             </div>
+             <div className="col-6">
+               {session_view}
+             </div>
+           </div>;
 }
+
+function state2props(state) {
+    return {session: state.session};
+}
+
+export default connect(state2props)(Header);

@@ -19,10 +19,12 @@ defmodule TaskTracker.Tasks do
   """
   def list_tasks do
     Repo.all(Task)
+    |> Repo.preload(:user)
   end
 
   def task_view(task) do
     Map.take(task, [:completed, :desc, :time_spent, :title, :inserted_at, :id])
+    |> Map.put(:assignee, (if task.user != nil do task.user.email else nil end))
   end
 
   @doc """
@@ -40,6 +42,8 @@ defmodule TaskTracker.Tasks do
 
   """
   def get_task!(id), do: Repo.get!(Task, id)
+
+  def put_user(task), do: Repo.preload(task, :user)
 
   @doc """
   Creates a task.

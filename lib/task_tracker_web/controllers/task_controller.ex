@@ -29,9 +29,15 @@ defmodule TaskTrackerWeb.TaskController do
 
   def update(conn, %{"id" => id, "task" => task_params}) do
     task = Tasks.get_task!(id)
+    |> Tasks.put_user()
 
-    with {:ok, %Task{} = task} <- Tasks.update_task(task, task_params) do
-      render(conn, "show.json", task: Tasks.put_user(task))
+    if (task.assignee != nil and task.assignee != conn.assigns.session.current_user) do
+      conn
+      |> send_resp(:unauthorized, "Not authorized")
+    else      
+      with {:ok, %Task{} = task} <- Tasks.update_task(task, task_params) do
+        render(conn, "show.json", task: Tasks.put_user(task))
+      end
     end
   end
 

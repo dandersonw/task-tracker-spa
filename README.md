@@ -1,20 +1,11 @@
 # TaskTracker
 
-To start your Phoenix server:
-
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: http://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+Design choices:
+* How to handle validating assignee names: I did this using a virtual field and
+  a validation step in `user.ex`. This was much nicer than my clunky handling in
+  `users.ex` from the previous tracker.
+* Error handling/redirects based on async call results: The callbacks given to
+  AJAX calls would set an appropriate state value via Redux. The appropriate
+  components would pick up on that value and redirect/display appropriately. The
+  error handling could have been done more nicely, but I ran out of time to
+  implement such QoL features.

@@ -9,25 +9,27 @@ import api from './api';
 export function Header(props) {
     let {dispatch, session} = props;
 
-    let session_view = <div className="form-inline">
-                          <div className="form-group">
-                            <input id="login-email" type="email" placeholder="email" />
-                          </div>
-                          <div className="form-group">
-                            <input id="login-pass" type="password" placeholder="password" />
-                          </div>
+    let session_view = <div className="form-inline col-6">
+                         <div className="form-group">
+                           <input id="login-email" type="email" placeholder="email" />
+                         </div>
+                         <div className="form-group">
+                           <input id="login-pass" type="password" placeholder="password" />
+                         </div>
                          <button id="login-button"
                                  className="btn btn-secondary"
                                  onClick={() =>
                                           api.create_session(document.getElementById("login-email").value,
-                                                              document.getElementById("login-pass").value)}>
+                                                             document.getElementById("login-pass").value)}>
                            Login
                          </button>
-                          <p><Link to={"/register"}>Register</Link></p>
+                         <div className="col-2">
+                           <p><Link to={"/register"}>Register</Link></p>
+                         </div>
                        </div>;
 
     if (session != null) {
-        session_view = <div className="col">
+        session_view = <div className="col-sm">
                          User: {session.user_email}
                          <button id="logout-button"
                                  className="btn btn-secondary"
@@ -35,14 +37,12 @@ export function Header(props) {
                        </div>;
     }
 
-    return <div className="row my-2">
-             <div className="col-4"><h2>Task Tracker</h2></div>
-             <div className="col-2">
+    return <div className="row">
+             <div className="col"><h2>Task Tracker</h2></div>
+             <div className="col-sm">
                <Link to={"/"} onClick={() => api.fetch_tasks()}>Tasks</Link>
              </div>
-             <div className="col-6">
-               {session_view}
-             </div>
+             {session_view}
            </div>;
 }
 

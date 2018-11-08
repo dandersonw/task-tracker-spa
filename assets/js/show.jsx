@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import store from './store';
 import _ from 'lodash';
 import ReactTimeAgo from 'react-time-ago';
 

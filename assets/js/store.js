@@ -1,7 +1,7 @@
 import { createStore, combineReducers } from 'redux';
 import deepFreeze from 'deep-freeze';
 
-// Shamelessly initially copied from course notes
+import _ from 'lodash';
 
 function show_task(state = null, action) {
     switch(action.type) {
@@ -45,10 +45,27 @@ function error(state = null, action) {
     }
 }
 
+function task_view_preferences(state = {"others": false, "completed": false} , action) {
+    switch(action.type) {
+    case 'SHOW_COMPLETED':
+        return _.merge({}, state, {'completed': true})
+    case 'SHOW_IN_PROGRESS':
+        return _.merge({}, state, {'completed': false})
+    case 'SHOW_OTHERS':
+        return _.merge({}, state, {'others': true})
+    case 'SHOW_MINE':
+        return _.merge({}, state, {'others': false})
+    default:
+        return state;
+    }
+}
+
+// copied from course notes
+
 function root_reducer(state0, action) {
     console.log("reducer", state0, action);
 
-    let reducer = combineReducers({tasks, session, show_task, error});
+    let reducer = combineReducers({tasks, session, show_task, error, task_view_preferences});
     let state1 = reducer(state0, action);
 
     console.log("reducer1", state1);

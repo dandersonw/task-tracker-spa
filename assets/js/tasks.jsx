@@ -19,6 +19,7 @@ export function Tasks(props) {
                    <td>Assignee</td>
                    <td>Description</td>
                    <td>Created At</td>
+                   <td></td>
                  </tr>
                  { _.map(relevantTasks, (task) => <Task task={task}/>)}
                </tbody>
@@ -32,11 +33,12 @@ function Task(props) {
     let { task } = props;
     //console.log(task);
     return <tr key={task.id}>
-             <td>{task.completed ? "✓" : <Link to={"/complete/" + task.id}>Complete</Link>}</td>
+             <td>{task.completed ? "✓" : "X"}</td>
              <td><Link to={"/show/" + task.id}>{task.title}</Link></td>
-             <td>{task.assignee}</td>
+             <td>{task.assignee == null ? <Link to={"/assign/" + task.id}>Assign</Link> : task.assignee}</td>
              <td>{task.dec}</td>
              <td>{created_at(task)}</td>
+             <td><Link to={"/progress/" + task.id}>Track Progress</Link></td>
            </tr>;
 }
 

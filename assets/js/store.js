@@ -34,10 +34,21 @@ function session(state = null, action) {
     }
 }
 
+function error(state = null, action) {
+    switch(action.type) {
+    case 'SHOW_ERROR':
+        return action.data;
+    case 'CLEAR_ERROR':
+        return null;
+    default:
+        return state;
+    }
+}
+
 function root_reducer(state0, action) {
     console.log("reducer", state0, action);
 
-    let reducer = combineReducers({tasks, session, show_task});
+    let reducer = combineReducers({tasks, session, show_task, error});
     let state1 = reducer(state0, action);
 
     console.log("reducer1", state1);

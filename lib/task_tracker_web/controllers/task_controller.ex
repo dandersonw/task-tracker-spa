@@ -23,6 +23,7 @@ defmodule TaskTrackerWeb.TaskController do
   def show(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)
     |> Tasks.put_user()
+
     render(conn, "show.json", task: task)
   end
 
